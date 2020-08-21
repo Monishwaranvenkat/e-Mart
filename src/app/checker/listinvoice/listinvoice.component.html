@@ -1,0 +1,35 @@
+<div class="container" >
+    <table class="mat-elevation-z8" mat-table [dataSource]="invoice" >
+         <ng-container matColumnDef="id" >
+            <th mat-header-cell *matHeaderCellDef>ID</th>
+            <td mat-cell *matCellDef="let element" > {{element.id}} </td>
+        </ng-container>
+         <ng-container matColumnDef="Totalproducts" >
+            <th mat-header-cell *matHeaderCellDef>Totalproducts</th>
+            <td mat-cell *matCellDef="let element"> {{element.numberOfProduct}} </td>
+        </ng-container>
+         <ng-container matColumnDef="Amount">
+            <th mat-header-cell *matHeaderCellDef>Amount</th>
+            <td mat-cell *matCellDef="let element"> {{element.totalAmount}} </td>
+        </ng-container>
+         <ng-container matColumnDef="Timestamps">
+            <th mat-header-cell *matHeaderCellDef>Timestamp</th>
+            <td mat-cell *matCellDef="let element"> {{element.timeStamp | date}} </td>
+        </ng-container>
+         <ng-container matColumnDef="supplier">
+            <th mat-header-cell *matHeaderCellDef>supplier</th>
+             <td mat-cell *matCellDef="let element"> {{supplier(element.supplierid)}} </td>
+        </ng-container>       
+          <ng-container matColumnDef="verify">
+            <th mat-header-cell *matHeaderCellDef></th>
+             <td mat-cell *matCellDef="let element"> 
+                 <button mat-flat-button (click)="audit(element.id)"  color="primary">check</button>
+                 
+             </td>
+        </ng-container>    
+       
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        
+    </table>
+</div>

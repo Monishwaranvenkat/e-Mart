@@ -1,0 +1,10 @@
+.example-spacer{
+  flex:1 1 auto;
+}
+.mat-sidenav-content{
+ height: inherit;
+ width: auto;
+}
+div{
+  overflow: hidden !important;
+}

@@ -1,0 +1,36 @@
+<div fxLayoutAlign="center center" fxFlexFill>
+  <mat-card fxFlex="50" >
+    
+  <mat-card-title fxLayoutAlign="center center">
+    <span>Add Supplier</span>
+   </mat-card-title>
+    <mat-card-content>
+    <form fxLayoutAlign="center"   fxLayout="column" fxLayoutGap="20px" name="form" #f='ngForm' [formGroup]="supplierForm" (ngSubmit)="onSubmit()" novalidate >
+  <mat-form-field >
+    <mat-label>Company Name</mat-label>
+    <input matInput  placeholder="Enter the company name" formControlName="companyname" required  name="Company Name" >
+  </mat-form-field>
+  <mat-form-field >
+    <mat-label>Rep Name</mat-label>
+    <input matInput   placeholder="Enter the repname" required formControlName="repname" name="repname">
+  </mat-form-field>
+  <mat-form-field >
+    <mat-label>email</mat-label>
+    <input matInput   placeholder="Enter the email" required formControlName="email" name="Email">
+  </mat-form-field>
+  <mat-form-field >
+    <mat-label>phone</mat-label>
+    <input matInput   placeholder="Enter the phone" required formControlName="phone" name="phone">
+  </mat-form-field>
+   <mat-form-field >
+    <mat-label>Address</mat-label>
+    <input matInput   placeholder="Enter the address" required formControlName="address" name="address">
+  </mat-form-field>
+  
+  
+    <button mat-raised-button color="primary" type="submit">submit</button>
+     </form>
+    </mat-card-content>
+  </mat-card>
+</div>
+

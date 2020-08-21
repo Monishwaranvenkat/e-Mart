@@ -1,0 +1,9 @@
+mat-card-content,mat-card-actions{
+    top: 05vm;
+    text-align: center;
+    width: 100%;
+}
+input{
+    
+    height: 25px;
+}

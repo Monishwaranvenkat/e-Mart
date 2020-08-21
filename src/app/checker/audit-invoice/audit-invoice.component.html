@@ -1,0 +1,234 @@
+<div class="container" >
+    <mat-card>
+        <mat-card-title >
+            <h1 >Invoice Id : #000{{invoice.id}}</h1>
+        </mat-card-title>
+        <mat-card-content  fxLayout="row" fxLayoutAlign="space-between">
+           <div>
+               <h2>Supplier: {{supplier(invoice.supplierid)}}</h2>
+               <h2>TimeStamp: {{invoice.timeStamp}}</h2>
+           </div>
+            
+           <div>
+               <h2>No of products: {{invoice.numberOfProduct}}</h2>
+               <h2>Total Amount: {{invoice.totalAmount}}</h2>
+           </div>
+        </mat-card-content>
+        
+        <mat-card-content>
+            
+
+
+
+                <!-- -------------------------testing--------------------------------- -->
+               
+
+<mat-horizontal-stepper linear #stepper>
+  <mat-step >
+  
+      <ng-template matStepLabel>Select the products to be return</ng-template>
+      <table mat-table [dataSource]="invoice.invoiceSummaries" fxFill>
+                    <ng-container matColumnDef="sno" >
+                        <th mat-header-cell *matHeaderCellDef>Sno</th>
+                         <td mat-cell *matCellDef="let element;let i = index;" > {{i+1}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="productname" >
+                        <th mat-header-cell *matHeaderCellDef>Product Name</th>
+                         <td mat-cell *matCellDef="let element" > {{element.productDescription}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="productCategory" >
+                        <th mat-header-cell *matHeaderCellDef>Product Category</th>
+                         <td mat-cell *matCellDef="let element" > {{element.productCategory}} </td>
+                    </ng-container>
+                     <ng-container matColumnDef="cost" >
+                        <th mat-header-cell *matHeaderCellDef>Cost</th>
+                         <td mat-cell *matCellDef="let element" > {{element.cost}} </td>
+                    </ng-container>
+                     <ng-container matColumnDef="count" >
+                        <th mat-header-cell *matHeaderCellDef>Count</th>
+                         <td mat-cell *matCellDef="let element" > {{element.count}} </td>
+                    </ng-container>
+                     
+                     <ng-container matColumnDef="currency" >
+                        <th mat-header-cell *matHeaderCellDef>Currency</th>
+                         <td mat-cell *matCellDef="let element" > {{element.currency}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="expiryDate" >
+                        <th mat-header-cell *matHeaderCellDef>Expiry Date</th>
+                         <td mat-cell *matCellDef="let element" > {{element.expiryDate|date}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="vendorCode" >
+                        <th mat-header-cell *matHeaderCellDef>Vendor Code</th>
+                         <td mat-cell *matCellDef="let element" > {{element.vendorCode}} </td>
+                    </ng-container>
+                      <ng-container matColumnDef="action" >
+                        <th mat-header-cell *matHeaderCellDef></th>
+                         <td mat-cell *matCellDef="let element" > 
+                            <button *ngIf="returnList.indexOf(element)==-1" (click)="return(element)" mat-button color="warn">
+                                <mat-icon>assignment_return</mat-icon>
+                                Return
+                            </button>
+                             <button *ngIf="returnList.indexOf(element)!=-1" (click)="cancelReturn(element)"  mat-button color="primary">
+                                <mat-icon>add_business</mat-icon>
+                                Accept
+                            </button>
+                         </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;let i = index;"></tr>
+                </table>
+
+      <div>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    
+  </mat-step>
+  <mat-step [stepControl]="form2.control" >
+    
+      <ng-template matStepLabel>Fill out the reason for return</ng-template>
+    <form #form2="ngForm">
+      <table mat-table [dataSource]="returnListDataSource" matSort   fxFill>
+                    <ng-container matColumnDef="id" >
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>sno</th>
+                         <td mat-cell *matCellDef="let element;let i = index;" > {{i+1}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="productDescription" >
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Product Name</th>
+                         <td mat-cell *matCellDef="let element" > {{element.productDescription}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="productCategory" >
+                        <th mat-header-cell *matHeaderCellDef>Product Category</th>
+                         <td mat-cell *matCellDef="let element" > {{element.productCategory}} </td>
+                    </ng-container>
+                     <ng-container matColumnDef="cost" >
+                        <th mat-header-cell *matHeaderCellDef>Cost</th>
+                         <td mat-cell *matCellDef="let element" > {{element.cost}} </td>
+                    </ng-container>                    
+                    
+                      <ng-container matColumnDef="action" >
+                        <th mat-header-cell *matHeaderCellDef >Reason</th>
+                         <td mat-cell *matCellDef="let element;let i = index;" > 
+                             
+                            <mat-form-field>
+        <mat-label>Enter Reason</mat-label>
+        <input matInput #reason="ngModel" [(ngModel)]="element.returnReason" name="reason-{{i}}" required>
+      </mat-form-field>
+                         </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="returnColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: returnColumns; let i = index;"></tr>
+                </table>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext (click)="loadAcceptedList()">Next</button>
+      </div>
+  </form>
+  </mat-step>
+  <!-- finall check stepper -->
+  <mat-step>
+    <ng-template matStepLabel>Final check</ng-template>
+    <br>
+    <h1>Product accepted</h1>
+    <br>
+    <!-- accepted table -->
+    <table mat-table [dataSource]="acceptedList" fxFill>
+                    <ng-container matColumnDef="sno" >
+                        <th mat-header-cell *matHeaderCellDef>Sno</th>
+                         <td mat-cell *matCellDef="let element;let i = index;" > {{i+1}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="productname" >
+                        <th mat-header-cell *matHeaderCellDef>Product Name</th>
+                         <td mat-cell *matCellDef="let element" > {{element.productDescription}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="productCategory" >
+                        <th mat-header-cell *matHeaderCellDef>Product Category</th>
+                         <td mat-cell *matCellDef="let element" > {{element.productCategory}} </td>
+                    </ng-container>
+                     <ng-container matColumnDef="cost" >
+                        <th mat-header-cell *matHeaderCellDef>Cost</th>
+                         <td mat-cell *matCellDef="let element" > {{element.cost}} </td>
+                    </ng-container>
+                     <ng-container matColumnDef="count" >
+                        <th mat-header-cell *matHeaderCellDef>Count</th>
+                         <td mat-cell *matCellDef="let element" > {{element.count}} </td>
+                    </ng-container>
+                     
+                     <ng-container matColumnDef="currency" >
+                        <th mat-header-cell *matHeaderCellDef>Currency</th>
+                         <td mat-cell *matCellDef="let element" > {{element.currency}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="expiryDate" >
+                        <th mat-header-cell *matHeaderCellDef>Expiry Date</th>
+                         <td mat-cell *matCellDef="let element" > {{element.expiryDate|date}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="vendorCode" >
+                        <th mat-header-cell *matHeaderCellDef>Vendor Code</th>
+                         <td mat-cell *matCellDef="let element" > {{element.vendorCode}} </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="acceptedDisplayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: acceptedDisplayedColumns;let i = index;"></tr>
+                </table>
+        <!-- return table -->
+        <br>
+                <h1>Product to be return</h1>
+                <br>
+        <table mat-table [dataSource]="returnListDataSource" fxFill>
+                    <ng-container matColumnDef="sno" >
+                        <th mat-header-cell *matHeaderCellDef>sno</th>
+                         <td mat-cell *matCellDef="let element;let i = index;" > {{i+1}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="productname" >
+                        <th mat-header-cell *matHeaderCellDef>Product Name</th>
+                         <td mat-cell *matCellDef="let element" > {{element.productDescription}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="productCategory" >
+                        <th mat-header-cell *matHeaderCellDef>Product Category</th>
+                         <td mat-cell *matCellDef="let element" > {{element.productCategory}} </td>
+                    </ng-container>
+                     <ng-container matColumnDef="cost" >
+                        <th mat-header-cell *matHeaderCellDef>Cost</th>
+                         <td mat-cell *matCellDef="let element" > {{element.cost}} </td>
+                    </ng-container>
+                     <ng-container matColumnDef="count" >
+                        <th mat-header-cell *matHeaderCellDef>Count</th>
+                         <td mat-cell *matCellDef="let element" > {{element.count}} </td>
+                    </ng-container>
+                     
+                     <ng-container matColumnDef="currency" >
+                        <th mat-header-cell *matHeaderCellDef>Currency</th>
+                         <td mat-cell *matCellDef="let element" > {{element.currency}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="expiryDate" >
+                        <th mat-header-cell *matHeaderCellDef>Expiry Date</th>
+                         <td mat-cell *matCellDef="let element" > {{element.expiryDate|date}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="vendorCode" >
+                        <th mat-header-cell *matHeaderCellDef>Vendor Code</th>
+                         <td mat-cell *matCellDef="let element" > {{element.vendorCode}} </td>
+                    </ng-container>
+                      <ng-container matColumnDef="reason" >
+                        <th mat-header-cell *matHeaderCellDef>Reason</th>
+                         <td mat-cell *matCellDef="let element" > 
+                           {{element.returnReason}}
+                         </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="reurnDisplayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: reurnDisplayedColumns;let i = index;"></tr>
+                </table>
+
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button (click)="submit()">done</button>
+      
+    </div>
+  </mat-step>
+</mat-horizontal-stepper>
+
+
+            
+        </mat-card-content>
+        
+    </mat-card>
+
+</div>
+

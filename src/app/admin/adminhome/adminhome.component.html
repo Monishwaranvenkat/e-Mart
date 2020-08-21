@@ -1,0 +1,60 @@
+<div style="width: 100vw; height: 100vh;"> 
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <button mat-icon-button>
+      <mat-icon (click)="sidenav.toggle()">menu</mat-icon>
+    </button>
+    <h1>EMart</h1>
+    <span class="example-spacer"></span>
+        <a  mat-button (click)='logout()'><mat-icon>logout</mat-icon>Logout</a>
+        <a  mat-button>User name</a>
+        <button mat-mini-fab  >
+          <mat-icon >person plus</mat-icon>
+        </button>
+  </mat-toolbar-row>
+  </mat-toolbar>
+  <mat-sidenav-container fxFlexFill>
+  <mat-sidenav #sidenav>
+    <mat-nav-list>
+        <a mat-list-item [routerLink]="'/admin/'"><mat-icon> home</mat-icon> Home </a>
+      <a mat-list-item [routerLink]="'/admin/adduser'"><mat-icon>person_add</mat-icon> Add employee </a>
+      <a mat-list-item [routerLink]="'/admin/getuser'"><mat-icon>group</mat-icon> View Employess </a>
+      
+
+       <mat-expansion-panel (opened)="panelOpenState = true"
+                       (closed)="panelOpenState = false">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+       <mat-icon>group</mat-icon>supplier
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+     <a mat-list-item [routerLink]="'/admin/addsupplier'"><mat-icon>group</mat-icon> Add Supplier </a>
+     <a mat-list-item [routerLink]="'/admin/viewsupplier'"><mat-icon>group</mat-icon> View Supplier </a>
+  </mat-expansion-panel>
+
+   <mat-expansion-panel (opened)="panelOpenState = true"
+                       (closed)="panelOpenState = false">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+       <mat-icon>group</mat-icon>maker
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+     <a mat-list-item [routerLink]="'/admin/uploadinvoice'"><mat-icon>arrow_upward</mat-icon> Upload invoice </a>
+      <a mat-list-item [routerLink]="'/admin/viewinvoices'"><mat-icon>receipt</mat-icon> View invoices </a>
+  </mat-expansion-panel>
+
+
+
+
+  
+      <a (click)="sidenav.toggle()"  mat-list-item>Close</a>
+      
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content >
+  
+      <router-outlet></router-outlet>
+  
+  </mat-sidenav-content>
+</mat-sidenav-container>
+</div>
